@@ -3,9 +3,10 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { OverlayStyled, ModalStyled } from './Modal.styled';
 
+
 const modalRoot = document.querySelector('#modal-root');
 
-export function Modal()  {
+export function Modal({ onClose, children })  {
    useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -16,19 +17,19 @@ export function Modal()  {
 
   const handleKeyDown = e => {
     if (e.code === 'Escape') {
-      this.props.onClose();
+      onClose();
     }
   };
 
   const handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
-      this.props.onClose();
+      onClose();
     }
   };
 
   return createPortal(     
       <OverlayStyled onClick={handleBackdropClick}>
-        <ModalStyled><span>hi</span></ModalStyled>       
+      <ModalStyled>{children}</ModalStyled>       
       </OverlayStyled>,
       modalRoot
     );
